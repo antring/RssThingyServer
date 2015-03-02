@@ -1,8 +1,9 @@
 __author__ = 'Antring'
 
-import urllib
+import urllib.request
 import os
 import feedparser
+import datetime
 from time import *
 
 
@@ -17,25 +18,23 @@ class rssReader:
         self.rsslen = len(self.podstream.entries)
 
 
-
     def checker(self):
         '''Checking if a podcast episode is already downloaded'''
-        #os.getcwd() current working directory
-        #
-        pass
+
+        curDir = os.getcwd() #Get current working dir
+        #TODO Write rest of this...
 
     def downloader(self, podcasturl, filename):
         '''For downloading podcasts given a url to the .mp3 and the filename that it should be stored with'''
-        fileRetriever = urllib.URLopener()
 
         try:
-            fileRetriever.retrieve(podcasturl, filename + '.mp3')
+            urllib.request.urlretrieve(podcasturl, filename + '.mp3')
             f = open('log.txt', 'a')
-            # FIXME f.write('(+)Downloaded ' + filename + ' - ' + time.asctime(time.localtime(time.time())) + ('\n'))
+            f.write('(+)Downloaded ' + filename + ' - ' + datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + ('\n'))
             f.close()
         except IOError:
             f = open('log.txt', 'a')
-            # FIXME f.write('(!)Downloader error ', IOError, time.asctime(time.localtime(time())), ('\n'))
+            f.write('(!)Downloader error ' + IOError + datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + ('\n'))
             f.close()
 
     def infoprinter(self):
